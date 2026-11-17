@@ -48,6 +48,10 @@
 
 **Don't use it when** <... and what to use instead>
 
+**The same idea in two other industries:**
+- **<Industry A>:** <2 sentences: the equivalent problem there, and what changes in how you'd apply the technique.>
+- **<Industry B>:** <2 sentences, ideally where the technique needs adapting or breaks.>
+
 **Gotchas:**
 1. <A concrete mistake, ideally demonstrated in the code with numbers>
 2. <...>

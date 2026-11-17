@@ -88,6 +88,7 @@ Voice and quality bar:
 - **Every number comes from the actual run output.** Never estimate or round differently from the printout.
 - "Explain it twice": the stakeholder version is at most 3 sentences with **zero** jargon and leads with the answer. The interviewer version names the method, the alternative rejected, and the key assumption.
 - Interview drill: one concept question, one scenario question ("a stakeholder says X…"), one trade-off question. Answers of 3–5 sentences that someone could say out loud.
+- Section 6 includes **"The same idea in two other industries"**: two short bullets showing where else the technique applies and what changes there, ideally one where it needs adapting or breaks. Use different industries from the post's own domain. No made-up statistics: describe the situation, not invented numbers.
 - Keep it to roughly 900–1,300 words. Cut anything that doesn't serve the reader.
 - No hype words ("powerful", "game-changing", "dive into", "unlock"). No emojis.
 
