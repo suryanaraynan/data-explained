@@ -131,9 +131,10 @@ def table_png(df, path, title, subtitle=None, footer_text=None, highlight_rows=(
     col_formats = col_formats or {}
     n_rows, n_cols = df.shape
     width = max(6.0, col_width * n_cols + 0.6)
-    height = row_height * (n_rows + 1) + 1.3
+    extra = (subtitle or "").count("\n")
+    height = row_height * (n_rows + 1) + 1.3 + 0.22 * extra
     fig = plt.figure(figsize=(width, height), dpi=150)
-    ax = fig.add_axes([0.04, 0.12, 0.92, 0.70])
+    ax = fig.add_axes([0.04, 0.12, 0.92, 0.70 - 0.05 * extra])
     ax.axis("off")
     fig.text(0.04, 0.96, title, fontsize=12, fontweight="bold", color=INK, va="top")
     if subtitle:
@@ -145,12 +146,14 @@ def table_png(df, path, title, subtitle=None, footer_text=None, highlight_rows=(
     tbl = ax.table(cellText=cells, colLabels=list(df.columns), loc="upper left",
                    cellLoc="right", colLoc="right", bbox=[0, 0, 1, 1])
     tbl.auto_set_font_size(False)
+    from pandas.api.types import is_numeric_dtype
+    pd_is_numeric = [is_numeric_dtype(t) for t in df.dtypes]
     for (r, c), cell in tbl.get_celld().items():
         cell.set_edgecolor(SURFACE)
         cell.set_linewidth(0)
         cell.set_facecolor(SURFACE)
         cell.set_text_props(color=INK, fontsize=9)
-        if c == 0:
+        if not pd_is_numeric[c]:
             cell.set_text_props(ha="left")
             cell._loc = "left"
         if r == 0:
