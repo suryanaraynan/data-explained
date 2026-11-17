@@ -26,7 +26,9 @@ The goal is to show I can do the analysis **and** explain it to anyone, technica
 <!-- INDEX:START -->
 **0 case files** · SQL + analytics: 0 · Stats + ML: 0 · Data engineering: 0 · AI / LLM / RAG: 0
 
-| # | Case file | Skill | Domain | Concept |
+**Preparing for a specific interview?** Each prep page lists every case file and interview question for that role: [Data Analyst (DA)](https://github.com/suryanaraynan/data-interview-questions/blob/main/prep/data-analyst.md) · [Data Scientist (DS)](https://github.com/suryanaraynan/data-interview-questions/blob/main/prep/data-scientist.md) · [Data Engineer (DE)](https://github.com/suryanaraynan/data-interview-questions/blob/main/prep/data-engineer.md) · [ML / AI Engineer (ML)](https://github.com/suryanaraynan/data-interview-questions/blob/main/prep/ml-engineer.md) · [Statistics & Experimentation (Stats)](https://github.com/suryanaraynan/data-interview-questions/blob/main/prep/statistics.md)
+
+| # | Case file | Tracks | Domain | Concept |
 |---:|---|---|---|---|
 <!-- INDEX:END -->
 
