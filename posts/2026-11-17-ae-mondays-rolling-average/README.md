@@ -94,6 +94,10 @@ The series has strong weekly seasonality, so single-day comparisons are dominate
 
 **Don't use it when** you need to detect *sudden* changes fast. A trailing 7-day average takes days to fully reflect a step change. Use a control chart or compare against the same weekday instead.
 
+**The same idea in two other industries:**
+- **Retail footfall:** Saturdays are always the busiest day, so "best Saturday this year!" after a promotion proves little. Compare the 7-day average with the same week last year (364-day lag) to separate the promotion's real lift from the weekend effect, and shade bank-holiday weeks separately.
+- **Energy demand (where it needs adapting):** half-hourly electricity demand has a *daily* cycle as well as a weekly one, so a 7-day window still works for the weekly level, but spotting a within-day shift needs a 48-period (24-hour) window or a comparison with the same half-hour last week. Pick the window to match the cycle you're trying to remove.
+
 **Gotchas:**
 
 1. **`ROWS` vs `RANGE`.** Right after the March gap, the `ROWS` version averaged the "last 7 rows". Those rows actually spanned 11 calendar days, and nothing warns you about it. The `RANGE` version averaged the last 7 *days* and reported only **3 days in the window**, so we knew not to trust it:
