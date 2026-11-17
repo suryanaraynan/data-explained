@@ -41,9 +41,14 @@ Use the domain's fictional organisation. Never make claims about real named orga
 - Produce the visuals described in section 3a below.
 - Run it. Fix it until it runs cleanly.
 
-## 3a. Visuals: 1–2 per case file, report-grade
+## 3a. Visuals: 2–3 per case file, report-grade
 
-Each case file has **1 or 2 visuals** (`chart_1.png`, and `chart_2.png` if needed). They must look like they came from a real analytics team's monthly pack or an operational dashboard, not a textbook plot. A visual can be a chart or a styled table.
+Each case file has **2 or 3 visuals**, named `chart_1.png`, `chart_2.png`, `chart_3.png` in the order they appear in the README. They must look like they came from a real analytics team's monthly pack or an operational dashboard, not a textbook plot. A visual can be a chart or a styled table.
+
+**Where they go:**
+1. **Context (required), in section 1 or 2.** Show what the stakeholder saw that triggered the question: the dashboard number that worried them, the complaint trend, the raw messy data, the funnel that looks broken. The reader should *feel* the problem before any method appears.
+2. **Results (required), in section 4.** The visual that answers the question and drives the decision.
+3. **Explainer (optional), wherever it helps most.** Usually section 3 (how the method works, e.g. the pattern it removes or the before/after of a fix) or section 6 (a gotcha shown visually, e.g. wrong vs right).
 
 **Use `tools/viz_style.py` for every visual** (import it as the reference post does). It provides the palette, `figure`, `headline`, `footer`, `callout`, `ref_line`, `shade`, `end_label`, `SEQ_CMAP` / `DIV_CMAP` for heatmaps, and `table_png` for report tables.
 
@@ -70,7 +75,7 @@ Each case file has **1 or 2 visuals** (`chart_1.png`, and `chart_2.png` if neede
 | Model results | Confusion matrix heatmap, calibration curve, SHAP-style bar of feature impact, precision–recall curve with the chosen threshold marked |
 | Pipeline / RAG / data-engineering posts | A results table (`table_png`): row counts per stage, latency/cost per option, recall@k per method, before/after data-quality checks. Highlight the recommended row |
 
-With two visuals, make them **different forms** that answer different questions. A typical pair is the headline chart near the top plus a supporting chart or table in "What we found".
+Make each visual a **different form** answering a different question. Never show the same data twice in two styles.
 
 **Before finishing:** open each PNG and look at it. Check that no labels overlap, nothing is clipped, the headline matches the numbers, and it's readable at GitHub's README width. Fix and re-render until it's clean.
 
@@ -125,7 +130,7 @@ Voice and quality bar:
 
 - [ ] `python posts/<slug>/analysis.py` runs cleanly from a fresh shell
 - [ ] Every number in the README appears in the script's printed output
-- [ ] 1–2 visuals, each with a finding-as-headline, subtitle, annotation and footer, checked by eye
+- [ ] 2–3 visuals (context in section 1/2, results in section 4, optional explainer), each with a finding-as-headline, subtitle, annotation and footer, checked by eye
 - [ ] Data labelled synthetic; the organisation is the fictional one from `topics.json`
 - [ ] Any external link was opened and works
 - [ ] All seven sections present, in order; about 900–1,300 words

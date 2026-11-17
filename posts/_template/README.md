@@ -4,13 +4,13 @@
 
 > **TL;DR:** <2–3 sentences: the question, the answer, the number that matters, the decision.>
 
-![<alt text: what the chart shows and its headline finding>](chart_1.png)
-
 ---
 
 ## 1. The problem
 
 <Who is asking (role at the fictional org), what they saw, what decision is riding on it, and what a wrong answer would cost. No jargon.>
+
+![<alt text: what the stakeholder saw that triggered the question>](chart_1.png)
 
 ## 2. The data
 
@@ -22,11 +22,15 @@
 
 <2–4 steps. Each one: what question this step answers, a short code excerpt (the important lines only), one sentence on why it's done this way.>
 
-## 4. What we found
-
-<Optional second visual, a different form from chart_1, e.g. a heatmap or report table:>
+<Optional explainer visual here (or in section 6), showing how the method works or a gotcha:>
 
 ![<alt text>](chart_2.png)
+
+## 4. What we found
+
+<Results visual (required): the chart or table that answers the question:>
+
+![<alt text: the answer, in words>](chart_3.png)
 
 <Results table and/or 3 bullets with numbers copied from the actual run output. End with **Decision it drives:**.>
 
