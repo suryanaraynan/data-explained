@@ -130,9 +130,17 @@ Surya is **not posting yet**. He's building a backlog to start posting once he's
   "lane": "<lane>",
   "domain": "<domain>",
   "concept": "<concept>",
-  "summary": "<one sentence, under 120 characters>"
+  "summary": "<one sentence, under 120 characters>",
+  "tracks": ["<interview types this case prepares you for>"],
+  "tags": ["<3-6 lowercase kebab-case skill tags, e.g. sql, window-functions, ab-testing, data-quality>"]
 }
 ```
+
+**Tracks** drive the per-interview prep pages in [data-interview-questions/prep](https://github.com/suryanaraynan/data-interview-questions/tree/main/prep). Allowed values: `data-analyst`, `data-scientist`, `data-engineer`, `ml-engineer`, `statistics`. Start from `default_tracks` in the `next_post.py` output, then adjust to the concept:
+- add `statistics` for inference / testing / experiment concepts (A/B tests, bootstrap, Simpson's paradox, regression to the mean, confounding, diff-in-diff)
+- add `ml-engineer` for model-building or evaluation concepts (leakage, class imbalance, SHAP, calibration, metrics, forecasting models)
+- add `data-analyst` for analyst-facing modelling or metric concepts (star schema, data quality checks, segmentation)
+- 1–4 tracks; only those where an interviewer for that role would plausibly ask about this.
 
 ## 6. Open the pull request
 

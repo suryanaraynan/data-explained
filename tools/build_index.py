@@ -19,13 +19,19 @@ lines = [f"**{len(posts)} case file{'' if len(posts) == 1 else 's'}** · "
          + " · ".join(f"{v['label']}: {sum(p['lane'] == k for p in posts)}"
                       for k, v in topics["lanes"].items()),
          "",
-         "| # | Case file | Skill | Domain | Concept |",
+         "**Preparing for a specific interview?** Each prep page lists every case file and interview question for that role: "
+         + " · ".join(f"[{v}](https://github.com/suryanaraynan/data-interview-questions/blob/main/prep/{k}.md)"
+                      for k, v in topics.get("tracks", {}).items()),
+         "",
+         "| # | Case file | Tracks | Domain | Concept |",
          "|---:|---|---|---|---|"]
 for p in posts:
     lane = topics["lanes"].get(p["lane"], {}).get("label", p["lane"])
     dom = topics["domains"].get(p["domain"], {}).get("label", p["domain"])
     concept = p["concept"].replace("-", " ")
-    lines.append(f"| {p['number']:03d} | [{p['title']}](posts/{p['slug']}/) | {lane} | {dom} | {concept} |")
+    short = {"data-analyst": "DA", "data-scientist": "DS", "data-engineer": "DE", "ml-engineer": "ML", "statistics": "Stats"}
+    tracks = " ".join(f"`{short.get(t, t)}`" for t in p.get("tracks", [])) or lane
+    lines.append(f"| {p['number']:03d} | [{p['title']}](posts/{p['slug']}/) | {tracks} | {dom} | {concept} |")
 
 readme = ROOT / "README.md"
 text = readme.read_text()

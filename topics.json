@@ -15,6 +15,11 @@
         "sessionisation",
         "running-totals-and-share-of-total",
         "anti-joins-what-is-missing"
+      ],
+      "default_tracks": [
+        "data-analyst",
+        "data-scientist",
+        "data-engineer"
       ]
     },
     "stats-ml": {
@@ -34,6 +39,9 @@
         "customer-segmentation-clustering",
         "probability-calibration",
         "difference-in-differences"
+      ],
+      "default_tracks": [
+        "data-scientist"
       ]
     },
     "data-engineering": {
@@ -51,6 +59,9 @@
         "data-quality-tests-in-pipelines",
         "change-data-capture",
         "deduplication-at-scale"
+      ],
+      "default_tracks": [
+        "data-engineer"
       ]
     },
     "ai-llm-rag": {
@@ -68,6 +79,10 @@
         "cost-and-latency-trade-offs",
         "hybrid-search-bm25-plus-vectors",
         "reranking"
+      ],
+      "default_tracks": [
+        "ml-engineer",
+        "data-scientist"
       ]
     }
   },
@@ -112,5 +127,12 @@
       "fictional_org": "Signalbox Mobile",
       "real_data_hint": "IBM Telco customer churn sample dataset; Ofcom open data"
     }
+  },
+  "tracks": {
+    "data-analyst": "Data Analyst (DA)",
+    "data-scientist": "Data Scientist (DS)",
+    "data-engineer": "Data Engineer (DE)",
+    "ml-engineer": "ML / AI Engineer (ML)",
+    "statistics": "Statistics & Experimentation (Stats)"
   }
 }

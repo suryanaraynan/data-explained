@@ -118,6 +118,7 @@ def main():
             "domain_label": topics["domains"][domain]["label"],
             "fictional_org": topics["domains"][domain]["fictional_org"],
             "real_data_hint": topics["domains"][domain]["real_data_hint"],
+            "default_tracks": topics["lanes"][lane].get("default_tracks", []),
             "concept": concept or "BANK EXHAUSTED: choose a new interview-relevant concept and add it to topics.json",
             "covered_in_lane": sorted({p["concept"] for p in posts if p["lane"] == lane}),
         })
