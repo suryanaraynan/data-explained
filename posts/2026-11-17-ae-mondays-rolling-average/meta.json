@@ -6,5 +6,17 @@
   "lane": "sql-analytics",
   "domain": "nhs-health",
   "concept": "window-functions-rolling-averages",
-  "summary": "Separating a weekly cycle from real growth with rolling averages, LAG and ROWS vs RANGE."
+  "summary": "Separating a weekly cycle from real growth with rolling averages, LAG and ROWS vs RANGE.",
+  "tracks": [
+    "data-analyst",
+    "data-scientist",
+    "data-engineer"
+  ],
+  "tags": [
+    "sql",
+    "window-functions",
+    "time-series",
+    "data-quality",
+    "stakeholder-communication"
+  ]
 }
