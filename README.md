@@ -14,6 +14,8 @@ Every case file starts with a question a real person in a real organisation woul
 | 6. When to use it / gotchas | When the technique works, when it doesn't, and the mistakes people make |
 | 7. Interview drill | Three questions you'll likely be asked, with crisp answers |
 
+Each case file also has an **`INTERVIEW.md`**: how I'd walk someone through it in STAR form. It covers every design decision, the alternatives I rejected, the trade-offs I accepted, the result and what I'd do differently.
+
 The goal is to show I can do the analysis **and** explain it to anyone, technical or not, across many industries.
 
 **Skill lanes:** SQL + analytics · Stats + ML · Data engineering · AI / LLM / RAG

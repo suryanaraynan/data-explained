@@ -25,6 +25,7 @@ jobs:
             echo "::group::posts/$d"
             test -f "posts/$d/meta.json"  || { echo "missing meta.json"; exit 1; }
             test -f "posts/$d/README.md"  || { echo "missing README.md"; exit 1; }
+            test -f "posts/$d/INTERVIEW.md" || { echo "missing INTERVIEW.md"; exit 1; }
             (cd "posts/$d" && timeout 120 python analysis.py)
             echo "::endgroup::"
           done

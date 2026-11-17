@@ -91,6 +91,19 @@ Voice and quality bar:
 - Keep it to roughly 900–1,300 words. Cut anything that doesn't serve the reader.
 - No hype words ("powerful", "game-changing", "dive into", "unlock"). No emojis.
 
+## 4a. Write the interview script: `posts/<date>-<slug>/INTERVIEW.md`
+
+Follow `posts/_template/INTERVIEW.md` exactly. `posts/2026-11-17-ae-mondays-rolling-average/INTERVIEW.md` is the reference example. This is Surya's script for walking an interviewer through the case in signposted STAR form.
+
+- **Framing is non-negotiable:** always "a portfolio project I built", modelled on a real source. Never present the fictional organisation as an employer, or the synthetic data as real.
+- Write it **in the first person, as spoken English**: short sentences, signposts said out loud ("There were three decisions… The first… The trade-off there was… So the result…").
+- Include both versions: a **60-second** one (about 150 words) and a **3–4 minute** full STAR one.
+- **Action = 3–5 decisions**, each with *what, why, alternative rejected, trade-off accepted*. At least one decision must be about data quality and one about communication (visuals, explaining it twice).
+- **Result** uses only numbers from the run output, ending with the recommendation.
+- **Reflection** has three points: a transferable learning about framing or stakeholders, a technical learning, and what you'd extend with real data (the limits of the synthetic data, and the next step to production).
+- **Decision log table**, plus a one-line "Numbers to remember".
+- **4–5 likely follow-up questions** with spoken answers, including "why not the simpler option?", "the stakeholder disagrees", "how would you productionise it?", "how would you validate it?" and "what would make you wrong?".
+
 ## 5. Write `meta.json`
 
 ```json
@@ -109,6 +122,7 @@ Voice and quality bar:
 ## 6. Open the pull request
 
 - Branch: `post/<slug>`, created from the latest `origin/main`.
+- The post folder must contain `README.md`, `INTERVIEW.md`, `analysis.py`, `meta.json` and the chart PNGs.
 - Change **only** `posts/<slug>/`, plus `topics.json` if you added a concept. Don't edit other posts, the root README (CI rebuilds the index after merge), tools or workflows.
 - Commit message: `Case file #NNN: <title>`
 - PR title: `Case file #NNN: <title>`
@@ -116,8 +130,9 @@ Voice and quality bar:
   1. **30-second read**: the TL;DR
   2. **Explain it to a manager**: copied from section 5
   3. **The 3 interview questions**: questions only, as a self-test
-  4. **Review checklist**: `- [ ] I can explain the method without notes`, `- [ ] Numbers match the run output`, `- [ ] Chart reads clearly`
-  5. Lane / domain / concept on one line
+  4. **Interview script**: the 60-second version from INTERVIEW.md, plus a link to the full file
+  5. **Review checklist**: `- [ ] I can tell the 60-second version without notes`, `- [ ] I can defend every trade-off in the decision log`, `- [ ] I can explain the method without notes`, `- [ ] Numbers match the run output`, `- [ ] Chart reads clearly`
+  6. Lane / domain / concept on one line
 - Push with `git -c push.negotiate=true push -u origin post/<slug>`.
 - Open the PR with the **REST API** (`gh pr create` uses GraphQL, which is blocked in these sessions):
   ```bash
@@ -133,5 +148,6 @@ Voice and quality bar:
 - [ ] 2–3 visuals (context in section 1/2, results in section 4, optional explainer), each with a finding-as-headline, subtitle, annotation and footer, checked by eye
 - [ ] Data labelled synthetic; the organisation is the fictional one from `topics.json`
 - [ ] Any external link was opened and works
-- [ ] All seven sections present, in order; about 900–1,300 words
+- [ ] All seven sections present, in order; about 900–1,300 words (excluding alt text)
+- [ ] INTERVIEW.md follows the template: portfolio framing, 60-second version, full STAR, 3–5 decisions with trade-offs, decision log, follow-ups
 - [ ] Only `posts/<slug>/` (and maybe `topics.json`) changed
