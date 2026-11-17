@@ -5,8 +5,9 @@ This file is the instruction set for the scheduled Claude run that drafts case f
 ## 0. Decide whether today is a posting day
 
 ```bash
-git fetch origin --prune
-pip install -q -r requirements.txt
+# the clone is shallow and single-branch, so fetch the open post branches explicitly
+git fetch --depth=1 --prune origin '+refs/heads/post/*:refs/remotes/origin/post/*'
+pip install -q --break-system-packages -r requirements.txt
 python tools/next_post.py
 ```
 
@@ -84,6 +85,12 @@ Voice and quality bar:
   3. **The 3 interview questions**: questions only, as a self-test
   4. **Review checklist**: `- [ ] I can explain the method without notes`, `- [ ] Numbers match the run output`, `- [ ] Chart reads clearly`
   5. Lane / domain / concept on one line
+- Push with `git -c push.negotiate=true push -u origin post/<slug>`.
+- Open the PR with the **REST API** (`gh pr create` uses GraphQL, which is blocked in these sessions):
+  ```bash
+  gh api repos/suryanaraynan/data-explained/pulls -f title="Case file #NNN: <title>" \
+     -f head="post/<slug>" -f base="main" -F body=@/tmp/pr_body.md --jq .html_url
+  ```
 - Report the PR URL as the final line of the run.
 
 ## Final checks before opening the PR
