@@ -14,15 +14,16 @@ A&E Attendances and Emergency Admissions statistics. "Northshire" is fictional.
 """
 from pathlib import Path
 
-import duckdb
-import matplotlib
+import sys
 
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+import duckdb
 import numpy as np
 import pandas as pd
+from matplotlib.colors import TwoSlopeNorm
 
-HERE = Path(__file__).parent
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[1] / "tools"))
+import viz_style as vs  # noqa: E402
 rng = np.random.default_rng(42)
 
 # ---------------------------------------------------------------------------
@@ -128,37 +129,97 @@ print(latest_monday.to_string(index=False))
 print("\n== Underlying demand vs same week last year ==")
 print(yoy.to_string(index=False))
 
+# Escalation context: the trust's (fictional) plan opens the escalation ward
+# when the 7-day average goes above 480 a day
+ESCALATION = 480
+full_windows = rolling[rolling["days_in_window"] == 7]
+peak = full_windows.loc[full_windows["avg7_range"].idxmax()]
+print(f"\n== Escalation check (trigger: 7-day average > {ESCALATION}) ==")
+print(f"Highest 7-day average in 2 years: {peak['avg7_range']:.1f} on {peak['day'].date()}")
+print(f"Days above trigger: {(full_windows['avg7_range'] > ESCALATION).sum()}")
+
+# Weekday x month: how far each weekday sits from that month's daily average
+wm = con.sql("""
+    WITH m AS (
+        SELECT date_trunc('month', day) AS month, isodow(day) AS dow,
+               avg(attendances) AS avg_att
+        FROM ae_daily GROUP BY 1, 2
+    )
+    SELECT month, dow,
+           100 * avg_att / avg(avg_att) OVER (PARTITION BY month) - 100 AS pct
+    FROM m ORDER BY month, dow
+""").df()
+grid = wm.pivot(index="dow", columns="month", values="pct")
+monday_top = int((grid.idxmax(axis=0) == 1).sum())
+print(f"\n== Monday is the busiest weekday in {monday_top} of {grid.shape[1]} months ==")
+
 # ---------------------------------------------------------------------------
-# 6. Chart: noisy daily counts vs the 7-day signal
+# 6. Visuals (house style: tools/viz_style.py)
 # ---------------------------------------------------------------------------
-INK, INK_2, GRID, SURFACE = "#0b0b0b", "#52514e", "#e6e5e1", "#fcfcfb"
-DAILY, SIGNAL = "#c3c2bc", "#2a78d6"
+FOOT = ("Synthetic data modelled on NHS England A&E Attendances and Emergency Admissions "
+        "patterns | Northshire NHS Trust is fictional | Data Explained #001")
 
-plot = rolling.copy()
-plot["day"] = pd.to_datetime(plot["day"])
-full = plot.set_index("day").reindex(pd.date_range(plot["day"].min(), plot["day"].max()))
-full.loc[full["days_in_window"] < 7, "avg7_range"] = np.nan  # don't plot partial windows
+# ---- chart_1: the last 12 months, signal vs noise vs last year vs the trigger
+r = rolling.set_index("day")
+cal = r.reindex(pd.date_range(r.index.min(), r.index.max()))
+cal.loc[cal["days_in_window"] < 7, "avg7_range"] = np.nan        # hide partial windows
+cal["avg7_last_year"] = cal["avg7_range"].shift(364)            # same weekday, 52 weeks ago
+win = cal.loc["2025-11-16":"2026-11-15"]
+end = win.index[-1]
 
-fig, ax = plt.subplots(figsize=(10, 4.6), dpi=150)
-fig.patch.set_facecolor(SURFACE)
-ax.set_facecolor(SURFACE)
-ax.plot(full.index, full["attendances"], color=DAILY, lw=1, label="Daily attendances (tall spikes are Mondays)")
-ax.plot(full.index, full["avg7_range"], color=SIGNAL, lw=2, label="7-day rolling average")
+fig, ax = vs.figure(height=5.6)
+vs.shade(ax, pd.Timestamp("2025-12-01"), pd.Timestamp("2026-02-28"), "Winter")
+vs.shade(ax, pd.Timestamp("2026-03-09"), pd.Timestamp("2026-03-13"), "Feed outage",
+         color="#e6e5e1")
+ax.plot(win.index, win["attendances"], color=vs.MUTED, lw=0.8, zorder=2)
+ax.plot(win.index, win["avg7_last_year"], color=vs.INK_3, lw=1.2, ls=(0, (4, 3)), zorder=3)
+ax.plot(win.index, win["avg7_range"], color=vs.SERIES[0], lw=2.2, zorder=4)
+vs.ref_line(ax, ESCALATION, "Escalation\ntrigger: 480", color=vs.STATUS["critical"])
 
-last = full["avg7_range"].dropna()
-ax.annotate("7-day average", (last.index[-1], last.iloc[-1]), xytext=(6, 0),
-            textcoords="offset points", va="center", color=INK, fontsize=9)
+vs.end_label(ax, end, win["avg7_range"].iloc[-1] + 4,
+             f"This year: {win['avg7_range'].iloc[-1]:.0f}", color=vs.INK)
+vs.end_label(ax, end, win["avg7_last_year"].iloc[-1] - 6,
+             f"Last year: {win['avg7_last_year'].iloc[-1]:.0f}", color=vs.INK_2)
+mon = pd.Timestamp(latest_monday["day"].iloc[0])
+vs.callout(ax, mon, latest_monday["attendances"].iloc[0],
+           "Mon 9 Nov: 538\n19% above that week's average", dx=-150, dy=8,
+           marker_color=vs.INK_2)
+pk = win["avg7_range"].idxmax()
+vs.callout(ax, pk, win["avg7_range"].max(),
+           f"Winter peak: {win['avg7_range'].max():.0f} a day\nstill below the trigger",
+           dx=40, dy=48, marker_color=vs.SERIES[0])
+ax.text(win.index[8], 352, "Daily attendances (grey): the tall spikes are Mondays",
+        fontsize=8, color=vs.INK_2)
 
-ax.set_title("Northshire A&E: daily attendances vs 7-day rolling average (synthetic)",
-             loc="left", color=INK, fontsize=11, pad=12)
-ax.set_ylabel("Attendances per day", color=INK_2, fontsize=9)
-ax.grid(axis="y", color=GRID, lw=0.8)
-ax.tick_params(colors=INK_2, labelsize=8, length=0)
-for side in ("top", "right", "left"):
-    ax.spines[side].set_visible(False)
-ax.spines["bottom"].set_color(GRID)
-ax.legend(loc="upper left", frameon=False, fontsize=8, labelcolor=INK_2, ncol=2)
-ax.set_xlim(full.index[0], full.index[-1] + pd.Timedelta(days=60))
-fig.tight_layout()
-fig.savefig(HERE / "chart.png", facecolor=SURFACE)
-print("\nSaved chart.png")
+ax.set_xlim(win.index[0], end)
+ax.set_ylim(340, 575)
+ax.xaxis.set_major_formatter(__import__("matplotlib.dates").dates.DateFormatter("%b %Y"))
+vs.headline(fig, "Underlying A&E demand is up 2.6% on last year, not surging",
+            "Northshire NHS Trust, A&E attendances per day: 7-day average (blue) vs same "
+            "week last year (dashed)\n16 Nov 2025 to 15 Nov 2026")
+vs.footer(fig, FOOT)
+vs.save(fig, HERE / "chart_1.png")
+
+# ---- chart_2: weekday x month heatmap, % vs that month's daily average
+labels = [d.strftime("%b\n%y") if d.month in (1, 11) or i == 0 else d.strftime("%b")
+          for i, d in enumerate(pd.to_datetime(grid.columns))]
+fig, ax = vs.figure(height=4.4)
+vs.style_axes(ax, grid=None)
+fig.subplots_adjust(right=0.90)
+ax.spines["bottom"].set_visible(False)
+im = ax.imshow(grid.values, cmap=vs.DIV_CMAP, norm=TwoSlopeNorm(0, -20, 20), aspect="auto")
+for (i, j), v in np.ndenumerate(grid.values):
+    ax.text(j, i, f"{v:+.0f}" if round(v) != 0 else "0", ha="center", va="center", fontsize=6.5,
+            color="white" if abs(v) > 12 else vs.INK)
+ax.set_yticks(range(7), ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
+ax.set_xticks(range(grid.shape[1]), labels, fontsize=7)
+cb = fig.colorbar(im, ax=ax, fraction=0.025, pad=0.02)
+cb.outline.set_visible(False)
+cb.ax.tick_params(labelsize=7, length=0, colors=vs.INK_2)
+cb.set_label("% vs month's daily average", fontsize=7.5, color=vs.INK_2)
+vs.headline(fig, f"Mondays are the busiest day in {monday_top} of {grid.shape[1]} months",
+            "Average attendances by weekday, % above (red) or below (blue) that month's "
+            "daily average. Nov 2024 to Nov 2026")
+vs.footer(fig, FOOT)
+vs.save(fig, HERE / "chart_2.png")
+print("\nSaved chart_1.png, chart_2.png")

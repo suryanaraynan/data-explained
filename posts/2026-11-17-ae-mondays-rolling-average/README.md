@@ -4,7 +4,7 @@
 
 > **TL;DR:** Monday's attendance count looked like a surge. It wasn't. Mondays always run about 14% above the weekly average. Once we smooth out the day-of-week pattern with a 7-day rolling average, underlying demand is up **2.6% on the same week last year**. That's steady growth, not a spike.
 
-![Daily attendances vs 7-day rolling average](chart.png)
+![Annotated line chart: the 7-day average of A&E attendances is up 2.6% on the same week last year and peaked at 470 a day in winter, below the 480 escalation trigger](chart_1.png)
 
 ---
 
@@ -14,7 +14,7 @@ The operations director at (fictional) Northshire NHS Trust opens Tuesday's dash
 
 *"Is demand surging? Do we need to open the escalation ward this week?"*
 
-That's an expensive decision. Staffing an extra ward means agency nurses, cancelled electives and a lot of goodwill spent. So what they really need to know is whether demand has actually changed, or whether they are looking at a normal Monday.
+That's an expensive decision. Staffing an extra ward means agency nurses, cancelled electives and a lot of goodwill spent. The trust's escalation plan says to open it when the **7-day average goes above 480 attendances a day**. So what they really need to know is whether demand has actually changed, or whether they are looking at a normal Monday.
 
 ## 2. The data
 
@@ -58,6 +58,8 @@ WHERE this.days_in_window = 7 AND last.days_in_window = 7
 
 ## 4. What we found
 
+![Heatmap of weekday by month: Monday is 11% to 19% above the monthly average in all 25 months, Saturday and Sunday are consistently below](chart_2.png)
+
 | Weekday | Avg attendances | vs weekly average |
 |---|---:|---:|
 | Monday | 494 | **+14.4%** |
@@ -69,7 +71,9 @@ WHERE this.days_in_window = 7 AND last.days_in_window = 7
 | Sunday | 403 | −6.5% |
 
 - The latest Monday (538) was **19% above that week's rolling average**. That's a little more than the usual 14% Monday uplift, but the same pattern we see every week.
+- Monday was the busiest weekday in **all 25 months** of data, so the Monday peak is built in, not a sign of a new problem.
 - The 7-day rolling average is **452 a day, up 2.6% on the same week last year (441)**. That's growth, but gradual growth.
+- The 7-day average has **never crossed the 480 trigger** in two years. Its highest point was **470, on 15 February 2026**, at the height of winter.
 - **Decision it drives:** don't open the escalation ward on the strength of one Monday. Do plan for winter, because the rolling average climbs every December to February, and do build the 2–3% annual growth into next year's staffing model.
 
 ## 5. Explain it twice
