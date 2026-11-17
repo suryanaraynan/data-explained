@@ -1,0 +1,30 @@
+name: Check case files
+
+on:
+  pull_request:
+    paths: ["posts/**", "requirements.txt"]
+
+jobs:
+  run-changed-posts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run every changed case file
+        run: |
+          set -e
+          dirs=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- posts/ \
+                 | cut -d/ -f2 | sort -u | grep -v '^_template$' || true)
+          for d in $dirs; do
+            echo "::group::posts/$d"
+            test -f "posts/$d/meta.json"  || { echo "missing meta.json"; exit 1; }
+            test -f "posts/$d/README.md"  || { echo "missing README.md"; exit 1; }
+            (cd "posts/$d" && timeout 120 python analysis.py)
+            echo "::endgroup::"
+          done

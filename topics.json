@@ -1,0 +1,116 @@
+{
+  "lanes": {
+    "sql-analytics": {
+      "label": "SQL + analytics",
+      "concepts": [
+        "window-functions-rolling-averages",
+        "cohort-retention",
+        "funnel-conversion",
+        "deduplication-row-number",
+        "gaps-and-islands",
+        "as-of-joins-point-in-time",
+        "medians-percentiles-vs-means",
+        "data-quality-checks-nulls-orphans",
+        "pivot-unpivot-reporting",
+        "sessionisation",
+        "running-totals-and-share-of-total",
+        "anti-joins-what-is-missing"
+      ]
+    },
+    "stats-ml": {
+      "label": "Stats + ML",
+      "concepts": [
+        "ab-test-sample-size-and-power",
+        "bootstrap-confidence-intervals",
+        "simpsons-paradox",
+        "regression-to-the-mean",
+        "confounding-correlation-vs-causation",
+        "survival-analysis-churn",
+        "class-imbalance-precision-recall",
+        "choosing-error-metrics-mae-rmse-mape",
+        "data-leakage",
+        "model-explainability-shap",
+        "forecasting-baselines",
+        "customer-segmentation-clustering",
+        "probability-calibration",
+        "difference-in-differences"
+      ]
+    },
+    "data-engineering": {
+      "label": "Data engineering",
+      "concepts": [
+        "idempotent-pipelines",
+        "incremental-loads-watermarks",
+        "scd-type-2-history",
+        "star-schema-dimensional-modelling",
+        "medallion-bronze-silver-gold",
+        "schema-drift-and-data-contracts",
+        "partitioning-and-file-sizing",
+        "late-arriving-data",
+        "backfills-and-reprocessing",
+        "data-quality-tests-in-pipelines",
+        "change-data-capture",
+        "deduplication-at-scale"
+      ]
+    },
+    "ai-llm-rag": {
+      "label": "AI / LLM / RAG",
+      "concepts": [
+        "chunking-strategies",
+        "embeddings-and-similarity",
+        "retrieval-evaluation-recall-at-k",
+        "grounding-and-hallucination-checks",
+        "when-not-to-use-an-llm",
+        "prompting-vs-rag-vs-fine-tuning",
+        "structured-extraction-from-text",
+        "llm-as-judge-pitfalls",
+        "pii-redaction-before-llms",
+        "cost-and-latency-trade-offs",
+        "hybrid-search-bm25-plus-vectors",
+        "reranking"
+      ]
+    }
+  },
+  "domains": {
+    "nhs-health": {
+      "label": "NHS / health",
+      "fictional_org": "Northshire NHS Trust",
+      "real_data_hint": "NHS England statistical work areas (A&E, RTT waiting times, bed availability); NHS Digital publications"
+    },
+    "retail": {
+      "label": "Retail",
+      "fictional_org": "Harbour & Hale (UK high-street and online retailer)",
+      "real_data_hint": "UCI Online Retail II dataset; ONS retail sales index"
+    },
+    "banking-finance": {
+      "label": "Banking / finance",
+      "fictional_org": "Thamesgate Building Society",
+      "real_data_hint": "Bank of England statistical database; public credit-risk and fraud datasets (e.g. UCI)"
+    },
+    "transport": {
+      "label": "Transport",
+      "fictional_org": "Metrolink North (fictional city transit operator)",
+      "real_data_hint": "TfL open data (journeys, bike hire); DfT road traffic statistics"
+    },
+    "energy-utilities": {
+      "label": "Energy / utilities",
+      "fictional_org": "Brightwater Energy",
+      "real_data_hint": "London smart meter data (London Datastore); NESO/Elexon grid demand data"
+    },
+    "public-sector": {
+      "label": "Public sector",
+      "fictional_org": "Westmoor District Council",
+      "real_data_hint": "ONS datasets; data.gov.uk; Police.uk crime data"
+    },
+    "hr-workforce": {
+      "label": "HR / workforce",
+      "fictional_org": "Calder Logistics (3,000 staff)",
+      "real_data_hint": "ONS ASHE earnings data; gender pay gap service data"
+    },
+    "subscriptions-telecom": {
+      "label": "Subscriptions / telecom",
+      "fictional_org": "Signalbox Mobile",
+      "real_data_hint": "IBM Telco customer churn sample dataset; Ofcom open data"
+    }
+  }
+}
