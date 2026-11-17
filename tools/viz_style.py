@@ -62,7 +62,7 @@ plt.rcParams.update({
 def figure(width=10.0, height=5.4, nrows=1, ncols=1, **kw):
     """Figure with room above the plot for a headline + subtitle and below for a footer."""
     fig, axes = plt.subplots(nrows, ncols, figsize=(width, height), dpi=150, **kw)
-    fig.subplots_adjust(top=0.80, bottom=0.14, left=0.07, right=0.88)
+    fig.subplots_adjust(top=0.80, bottom=0.14, left=0.07, right=0.84)
     for ax in np.atleast_1d(axes).ravel():
         style_axes(ax)
     return fig, axes
@@ -76,6 +76,8 @@ def style_axes(ax, grid="y"):
     if grid:
         ax.grid(axis=grid, color=GRID, lw=0.8)
         ax.set_axisbelow(True)
+    else:
+        ax.grid(False)
 
 
 def headline(fig, title, subtitle=None):
