@@ -38,13 +38,41 @@ Use the domain's fictional organisation. Never make claims about real named orga
 - AI / LLM / RAG lane: implement the idea with local, deterministic tools (TF-IDF, BM25 written in a few lines, sklearn nearest neighbours, regex extraction, small hand-labelled eval sets). In the README, say exactly where a hosted LLM or embedding model would slot in, and what would change.
 - Where possible, show a gotcha **in code**: compute the wrong way and the right way, and print both.
 - Print every number the README will quote.
-- Save **one** chart as `chart.png` (matplotlib, `dpi=150`, about 10×4.6 inches). Style:
-  - surface `#fcfcfb`; text `#0b0b0b` / `#52514e`; grid `#e6e5e1`, y-axis only
-  - series colours in this order: `#2a78d6`, `#eb6834`, `#1baf7a`, `#eda100`; muted context data `#c3c2bc`
-  - 2px lines, no top/right/left spines, left-aligned title that states what it shows plus "(synthetic)"
-  - one y-axis only; a legend for 2+ series; label the series at the line end where possible
-  - if a chart doesn't help, use a results table instead and skip the PNG (drop the image line from the README)
-- Run it. Fix it until it runs cleanly. Look at `chart.png` and check for overlapping labels.
+- Produce the visuals described in section 3a below.
+- Run it. Fix it until it runs cleanly.
+
+## 3a. Visuals: 1–2 per case file, report-grade
+
+Each case file has **1 or 2 visuals** (`chart_1.png`, and `chart_2.png` if needed). They must look like they came from a real analytics team's monthly pack or an operational dashboard, not a textbook plot. A visual can be a chart or a styled table.
+
+**Use `tools/viz_style.py` for every visual** (import it as the reference post does). It provides the palette, `figure`, `headline`, `footer`, `callout`, `ref_line`, `shade`, `end_label`, `SEQ_CMAP` / `DIV_CMAP` for heatmaps, and `table_png` for report tables.
+
+**Every visual must have:**
+1. **A headline that states the finding** as a sentence ("Mondays run 14% above average in every month"), never a label ("Attendances by weekday").
+2. **A subtitle** saying what is plotted, the units and the period.
+3. **A focus and a context.** The data the story is about is in colour (`SERIES[0]` first); everything else is `MUTED`.
+4. **At least one annotation** on a number the README quotes (`callout`), plus real-world context where it exists: a target or threshold (`ref_line`), a benchmark or last year's line, a shaded period such as winter, an outage, a campaign or a policy change (`shade`).
+5. **A footer** with "Synthetic data modelled on <source> | Data Explained #NNN".
+6. One y-axis only; direct labels at line ends; a legend only when direct labels won't fit.
+
+**Choose the form by the job the visual does**, and vary it across posts. Don't default to a line chart:
+
+| Job | Realistic form |
+|---|---|
+| Trend vs target / last year | Annotated line with a target line, last year in muted dashes, events shaded |
+| Pattern across two dimensions (weekday × month, hour × day, region × product) | Heatmap with `SEQ_CMAP` (or `DIV_CMAP` for above/below a midpoint), cell values when there's room |
+| Ranking / comparison across groups | Sorted horizontal bars, the focus group highlighted, benchmark line |
+| Before vs after, or two points per group | Dumbbell / slope chart |
+| Distribution or spread | Histogram or box/strip plot with median and target marked |
+| Change in a total (bridges, waterfalls) | Waterfall |
+| Funnel / pipeline stages | Horizontal funnel bars with conversion % between stages |
+| Many groups over time | Small multiples (shared y-axis) rather than a spaghetti chart |
+| Model results | Confusion matrix heatmap, calibration curve, SHAP-style bar of feature impact, precision–recall curve with the chosen threshold marked |
+| Pipeline / RAG / data-engineering posts | A results table (`table_png`): row counts per stage, latency/cost per option, recall@k per method, before/after data-quality checks. Highlight the recommended row |
+
+With two visuals, make them **different forms** that answer different questions. A typical pair is the headline chart near the top plus a supporting chart or table in "What we found".
+
+**Before finishing:** open each PNG and look at it. Check that no labels overlap, nothing is clipped, the headline matches the numbers, and it's readable at GitHub's README width. Fix and re-render until it's clean.
 
 ## 4. Write the case file: `posts/<date>-<slug>/README.md`
 
@@ -97,6 +125,7 @@ Voice and quality bar:
 
 - [ ] `python posts/<slug>/analysis.py` runs cleanly from a fresh shell
 - [ ] Every number in the README appears in the script's printed output
+- [ ] 1–2 visuals, each with a finding-as-headline, subtitle, annotation and footer, checked by eye
 - [ ] Data labelled synthetic; the organisation is the fictional one from `topics.json`
 - [ ] Any external link was opened and works
 - [ ] All seven sections present, in order; about 900–1,300 words

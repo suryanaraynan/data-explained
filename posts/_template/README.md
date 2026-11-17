@@ -4,7 +4,7 @@
 
 > **TL;DR:** <2–3 sentences: the question, the answer, the number that matters, the decision.>
 
-![<alt text describing the chart>](chart.png)
+![<alt text: what the chart shows and its headline finding>](chart_1.png)
 
 ---
 
@@ -23,6 +23,10 @@
 <2–4 steps. Each one: what question this step answers, a short code excerpt (the important lines only), one sentence on why it's done this way.>
 
 ## 4. What we found
+
+<Optional second visual, a different form from chart_1, e.g. a heatmap or report table:>
+
+![<alt text>](chart_2.png)
 
 <Results table and/or 3 bullets with numbers copied from the actual run output. End with **Decision it drives:**.>
 
