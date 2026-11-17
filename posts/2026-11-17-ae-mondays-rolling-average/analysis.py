@@ -159,7 +159,37 @@ print(f"\n== Monday is the busiest weekday in {monday_top} of {grid.shape[1]} mo
 FOOT = ("Synthetic data modelled on NHS England A&E Attendances and Emergency Admissions "
         "patterns | Northshire NHS Trust is fictional | Data Explained #001")
 
-# ---- chart_1: the last 12 months, signal vs noise vs last year vs the trigger
+# ---- chart_1 (context): what the operations director saw on the dashboard
+mon = pd.Timestamp(latest_monday["day"].iloc[0])
+last14 = rolling[rolling["day"] >= rolling["day"].max() - pd.Timedelta(days=13)].copy()
+week_avg = last14.loc[last14["day"] >= pd.Timestamp("2026-11-09"), "attendances"].mean()
+mondays = last14[last14["day"].dt.dayofweek == 0]
+print("\n== Last 14 days (dashboard view) ==")
+print(last14[["day", "attendances"]].assign(day=last14["day"].dt.strftime("%a %d %b"))
+      .to_string(index=False))
+
+fig, ax = vs.figure(height=5.0)
+colors = [vs.SERIES[0] if d == mon else (vs.MUTED if d.dayofweek else "#9a9993")
+          for d in last14["day"]]
+ax.bar(last14["day"], last14["attendances"], width=0.8, color=colors, zorder=3)
+vs.ref_line(ax, round(week_avg), f"Average day\nthat week: {week_avg:.0f}")
+for _, row in mondays.iterrows():
+    ax.text(row["day"], row["attendances"] + 6, f"{row['attendances']}", ha="center",
+            fontsize=9, color=vs.INK, fontweight="bold" if row["day"] == mon else "normal")
+ax.annotate("The Monday before\nwas also high",
+            (mondays["day"].iloc[0] + pd.Timedelta(hours=10), mondays["attendances"].iloc[0] - 10),
+            xytext=(28, 40), textcoords="offset points", ha="left", va="center",
+            fontsize=8.5, color=vs.INK_2,
+            arrowprops=dict(arrowstyle="-", color=vs.INK_3, lw=0.8))
+ax.set_xticks(last14["day"], [d.strftime("%a\n%d") for d in last14["day"]])
+ax.set_ylim(0, 620)
+vs.headline(fig, "Tuesday's dashboard: 538 attendances on Monday looked like a surge",
+            "Northshire NHS Trust, A&E attendances per day, Mon 2 Nov to Sun 15 Nov 2026. "
+            "Latest Monday in blue, other Mondays in dark grey")
+vs.footer(fig, FOOT)
+vs.save(fig, HERE / "chart_1.png")
+
+# ---- chart_3 (results): the last 12 months, signal vs noise vs last year vs the trigger
 r = rolling.set_index("day")
 cal = r.reindex(pd.date_range(r.index.min(), r.index.max()))
 cal.loc[cal["days_in_window"] < 7, "avg7_range"] = np.nan        # hide partial windows
@@ -198,9 +228,9 @@ vs.headline(fig, "Underlying A&E demand is up 2.6% on last year, not surging",
             "Northshire NHS Trust, A&E attendances per day: 7-day average (blue) vs same "
             "week last year (dashed)\n16 Nov 2025 to 15 Nov 2026")
 vs.footer(fig, FOOT)
-vs.save(fig, HERE / "chart_1.png")
+vs.save(fig, HERE / "chart_3.png")
 
-# ---- chart_2: weekday x month heatmap, % vs that month's daily average
+# ---- chart_2 (explainer): weekday x month heatmap, % vs that month's daily average
 labels = [d.strftime("%b\n%y") if d.month in (1, 11) or i == 0 else d.strftime("%b")
           for i, d in enumerate(pd.to_datetime(grid.columns))]
 fig, ax = vs.figure(height=4.4)
@@ -222,4 +252,4 @@ vs.headline(fig, f"Mondays are the busiest day in {monday_top} of {grid.shape[1]
             "daily average. Nov 2024 to Nov 2026")
 vs.footer(fig, FOOT)
 vs.save(fig, HERE / "chart_2.png")
-print("\nSaved chart_1.png, chart_2.png")
+print("\nSaved chart_1.png, chart_2.png, chart_3.png")

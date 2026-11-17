@@ -4,8 +4,6 @@
 
 > **TL;DR:** Monday's attendance count looked like a surge. It wasn't. Mondays always run about 14% above the weekly average. Once we smooth out the day-of-week pattern with a 7-day rolling average, underlying demand is up **2.6% on the same week last year**. That's steady growth, not a spike.
 
-![Annotated line chart: the 7-day average of A&E attendances is up 2.6% on the same week last year and peaked at 470 a day in winter, below the 480 escalation trigger](chart_1.png)
-
 ---
 
 ## 1. The problem
@@ -13,6 +11,8 @@
 The operations director at (fictional) Northshire NHS Trust opens Tuesday's dashboard and sees **538 A&E attendances** on Monday. That's well above the ~450 they think of as "normal". They ask:
 
 *"Is demand surging? Do we need to open the escalation ward this week?"*
+
+![Bar chart of the last 14 days: Monday 9 November at 538 attendances stands well above the week's average of 452, and the Monday before was also high at 510](chart_1.png)
 
 That's an expensive decision. Staffing an extra ward means agency nurses, cancelled electives and a lot of goodwill spent. The trust's escalation plan says to open it when the **7-day average goes above 480 attendances a day**. So what they really need to know is whether demand has actually changed, or whether they are looking at a normal Monday.
 
@@ -38,6 +38,10 @@ ORDER BY isodow(day);
 
 The `avg(avg(...)) OVER ()` is a window function sitting on top of an aggregate. It gives the "average of the weekday averages" without a second query.
 
+Splitting the same calculation by month shows the Monday effect is no one-off. It appears in every month, summer and winter:
+
+![Heatmap of weekday by month: Monday is 11% to 19% above the monthly average in all 25 months, Saturday and Sunday are consistently below](chart_2.png)
+
 **b) Smooth out the weekly cycle with a 7-day rolling average.** A 7-day window always contains exactly one of each weekday, so the Monday spike cancels out.
 
 ```sql
@@ -58,7 +62,7 @@ WHERE this.days_in_window = 7 AND last.days_in_window = 7
 
 ## 4. What we found
 
-![Heatmap of weekday by month: Monday is 11% to 19% above the monthly average in all 25 months, Saturday and Sunday are consistently below](chart_2.png)
+![Annotated line chart for the last 12 months: the 7-day average of A&E attendances is up 2.6% on the same week last year and peaked at 470 a day in winter, below the 480 escalation trigger](chart_3.png)
 
 | Weekday | Avg attendances | vs weekly average |
 |---|---:|---:|
