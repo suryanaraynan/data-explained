@@ -104,6 +104,21 @@ Follow `posts/_template/INTERVIEW.md` exactly. `posts/2026-11-17-ae-mondays-roll
 - **Decision log table**, plus a one-line "Numbers to remember".
 - **4–5 likely follow-up questions** with spoken answers, including "why not the simpler option?", "the stakeholder disagrees", "how would you productionise it?", "how would you validate it?" and "what would make you wrong?".
 
+## 4b. Write the LinkedIn draft: `drafts/linkedin/<NNN>-<slug-without-date>.md`
+
+Surya is **not posting yet**. He's building a backlog to start posting once he's kept the rhythm for 2+ months. Write a ready-to-post draft anyway, following `drafts/linkedin/001-ae-mondays-rolling-average.md` as the reference.
+
+- Header: `Status: draft, not posted`, which image(s) to attach (usually the results chart), and the first-comment text with the GitHub link to the post folder on `main`. Links go in the first comment because LinkedIn shows posts with links to fewer people.
+- Post body, 150–250 words:
+  - a **two-line hook** that works before "…see more": a surprising number or a tension
+  - the scenario in one sentence, framed as a portfolio case
+  - **3 numbered takeaways** with the real numbers
+  - one technical lesson in plain words
+  - a one-line principle
+  - a genuine question to the reader
+  - 3–5 hashtags
+- First person, plain English, no hype, at most one emoji (zero is fine). Never present the fictional organisation as real.
+
 ## 5. Write `meta.json`
 
 ```json
@@ -123,7 +138,7 @@ Follow `posts/_template/INTERVIEW.md` exactly. `posts/2026-11-17-ae-mondays-roll
 
 - Branch: `post/<slug>`, created from the latest `origin/main`.
 - The post folder must contain `README.md`, `INTERVIEW.md`, `analysis.py`, `meta.json` and the chart PNGs.
-- Change **only** `posts/<slug>/`, plus `topics.json` if you added a concept. Don't edit other posts, the root README (CI rebuilds the index after merge), tools or workflows.
+- Change **only** `posts/<slug>/` and `drafts/linkedin/<NNN>-...md`, plus `topics.json` if you added a concept. Don't edit other posts, the root README (CI rebuilds the index after merge), tools or workflows.
 - Commit message: `Case file #NNN: <title>`
 - PR title: `Case file #NNN: <title>`
 - PR body, so the owner can review it from their phone:
