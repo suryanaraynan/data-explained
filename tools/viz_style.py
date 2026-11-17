@@ -99,12 +99,12 @@ def callout(ax, x, y, text, dx=30, dy=30, color=INK, marker_color=None, ha="left
                 arrowprops=dict(arrowstyle="-", color=INK_3, lw=0.8, shrinkA=0, shrinkB=4))
 
 
-def ref_line(ax, y, label, color=INK_2, style="--", where="right"):
-    """Target / threshold / benchmark line, labelled in the margin."""
-    ax.axhline(y, color=color, lw=1, ls=style, zorder=2)
-    x = 1.005 if where == "right" else 0.005
-    ax.text(x, y, label, transform=ax.get_yaxis_transform(), fontsize=8,
-            color=color, va="center", ha="left")
+def ref_line(ax, y, label, color=INK_2, style="--", label_color=INK_2):
+    """Target / threshold / benchmark line, labelled in the right margin.
+    For a threshold use color=STATUS["critical"]; the label stays in text ink."""
+    ax.axhline(y, color=color, lw=1.2, ls=style, zorder=2)
+    ax.text(1.01, y, label, transform=ax.get_yaxis_transform(), fontsize=8,
+            color=label_color, va="center", ha="left")
 
 
 def shade(ax, x0, x1, label=None, y_label=0.97, color=SHADE):
