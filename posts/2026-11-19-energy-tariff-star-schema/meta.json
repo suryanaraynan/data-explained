@@ -1,0 +1,21 @@
+{
+  "number": 2,
+  "date": "2026-11-19",
+  "slug": "2026-11-19-energy-tariff-star-schema",
+  "title": "Is our Saver Nights tariff cutting peak electricity use, or making it worse?",
+  "lane": "data-engineering",
+  "domain": "energy-utilities",
+  "concept": "star-schema-dimensional-modelling",
+  "summary": "A fan-out join made a working tariff look harmful; a star schema with a declared grain fixed it.",
+  "tracks": [
+    "data-engineer",
+    "data-analyst"
+  ],
+  "tags": [
+    "data-modelling",
+    "star-schema",
+    "sql",
+    "data-quality",
+    "reconciliation"
+  ]
+}
