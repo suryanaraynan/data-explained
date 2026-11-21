@@ -1,0 +1,22 @@
+{
+  "number": 3,
+  "date": "2026-11-21",
+  "slug": "2026-11-21-loan-default-calibration",
+  "title": "The new model says 18.8% of applicants will default. Do we tighten lending, or is the model wrong?",
+  "lane": "stats-ml",
+  "domain": "banking-finance",
+  "concept": "probability-calibration",
+  "summary": "A credit model that ranked well but over-stated risk 5x, fixed with Platt scaling on mature loans.",
+  "tracks": [
+    "data-scientist",
+    "ml-engineer",
+    "statistics"
+  ],
+  "tags": [
+    "machine-learning",
+    "probability-calibration",
+    "model-evaluation",
+    "class-imbalance",
+    "credit-risk"
+  ]
+}
